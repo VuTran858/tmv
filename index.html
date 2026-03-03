@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài kiểm tra đầy đủ (Đã bỏ dấu *)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: #f2f5f9;
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .test-wrapper {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0,10,30,0.1);
+            padding: 30px 35px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #0b2b3c;
+            border-left: 8px solid #1e7e6c;
+            padding-left: 25px;
+        }
+        .subhead {
+            color: #2c4a5e;
+            margin-left: 33px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .section-title {
+            background: #e0f0f0;
+            padding: 10px 20px;
+            margin: 30px 0 20px 0;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #003153;
+            border: 1px solid #b4d6d3;
+        }
+        .passage-box {
+            background: #f9fbfd;
+            border-left: 5px solid #5f9ea0;
+            padding: 16px 22px;
+            margin: 20px 0 20px 0;
+            border-radius: 0 20px 20px 0;
+            font-style: normal;
+            line-height: 1.6;
+            color: #1d2f3f;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            white-space: pre-line;
+        }
+        .question-item {
+            background: #ffffff;
+            border: 1px solid #d9e5eb;
+            border-radius: 24px;
+            padding: 18px 25px;
+            margin-bottom: 20px;
+            transition: 0.1s;
+            box-shadow: 0 4px 12px rgba(0,30,40,0.05);
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #103744;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .q-num {
+            background: #1e7e6c;
+            color: white;
+            border-radius: 50px;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-left: 25px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 30px;
+            transition: background 0.1s;
+        }
+        .option:hover {
+            background: #ebf3f5;
+        }
+        .option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1e7e6c;
+            cursor: pointer;
+        }
+        .option-text {
+            font-size: 1.05rem;
+            color: #1d3b47;
+        }
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        button {
+            background: #1e7e6c;
+            border: none;
+            color: white;
+            padding: 16px 38px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(20, 100, 90, 0.3);
+            transition: 0.15s;
+            border: 1px solid #116b5a;
+            letter-spacing: 0.3px;
+        }
+        button:hover {
+            background: #0f5f50;
+            transform: scale(1.02);
+        }
+        #resetBtn {
+            background: #ebeef3;
+            color: #1d4b5e;
+            box-shadow: none;
+            border: 1px solid #bccbd6;
+        }
+        #resetBtn:hover {
+            background: #dae2ea;
+        }
+        .result-area {
+            background: #f0f7fb;
+            padding: 20px 28px;
+            border-radius: 40px;
+            margin-top: 35px;
+            border: 2px dashed #5f9ea0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .result-area h3 {
+            margin-top: 0;
+            color: #024d6e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .score-badge {
+            background: #ca7925;
+            color: white;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+        }
+        .explanation {
+            background: #fffae5;
+            border-left: 6px solid #e0b300;
+            padding: 12px 20px;
+            border-radius: 16px;
+            margin-top: 15px;
+            font-size: 0.98rem;
+        }
+        hr {
+            border: 1px solid #bcd4da;
+            margin: 30px 0 20px;
+        }
+        footer {
+            font-size: 0.85rem;
+            color: #5f7c87;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .note {
+            background: #f3e9d2;
+            border-radius: 30px;
+            padding: 8px 25px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="test-wrapper" id="testContainer">
+    <h1>✍️ Kiểm tra tổng hợp</h1>
+    <div class="subhead">Đọc kỹ các đoạn văn & chọn tất cả đáp án · Đáp án đúng được xác định từ đề gốc (dấu * đã được loại bỏ khỏi giao diện)</div>
+
+    <div id="questionsArea"></div>
+
+    <div class="action-bar">
+        <button id="submitBtn">📩 Nộp bài & hiển thị đáp án</button>
+        <button id="resetBtn">⟲ Làm lại (bỏ chọn)</button>
+    </div>
+    <div id="resultContainer" class="result-area" style="display: none;">
+        <h3>📊 Kết quả của bạn</h3>
+        <div id="scoreDisplay" class="score-badge"></div>
+        <div id="answersReview" style="margin-top: 20px;"></div>
+        <div class="explanation" id="explainNote">
+            ✅ Đáp án đúng được chấm dựa trên dữ liệu đề. Bạn có thể so sánh với lựa chọn của mình.
+        </div>
+    </div>
+    <hr>
+    <footer>Dữ liệu giữ nguyên · Tất cả các câu từ đề gốc (đã làm sạch dấu * hiển thị)</footer>
+</div>
+
+<script>
+    (function() {
+        // --------------------------------------------------------------
+        // DANH SÁCH CÂU HỎI ĐẦY ĐỦ (ĐÃ LOẠI BỎ DẤU * TRONG PHẦN TEXT HIỂN THỊ)
+        // --------------------------------------------------------------
+        const questions = [
+            // READING GAP-FILL (Mark's Blog) 1-5
+            { section: "II. READING — Mark's Blog (gap-fill 1-5)", passage: `Mark's Blog\nOver the last couple of hundred years or so, people worldwide have migrated from the countryside to the city in search of better employment opportunities and an improved (1) ______ of living. However, in recent years, the opposite has started to happen, and people are slowly escaping (2) ______ populated areas once more.\nAdvances in technology have made remote working easier and available to more people. Today, many people can work from any location as long as they've got a laptop and a good Wi-Fi connection. Add to this the many stresses of modern urban life, and it's easy to see why people want to swap small apartments in crowded cities for more (3) ______ air and housing. After all, who wouldn't want access to open fields, (4) ______ air and great views. Other attractions of rural locations include the quieter, slower-paced lifestyle and the lower cost of living.\nOf course, this sort of migration has both positive and negative consequences. One downside is that it can put increased pressure on public services in rural communities. However, it can also help to establish new businesses in small towns and help existing businesses to grow. It can also boost declining rural populations and bring in a younger generation.\nAnyway, I've decided to start a new life in the country and write about my experiences. I've just had my new house (5) ______ and I'm ready to move in. I'll keep you posted here on my blog, so keep reading!`, 
+              qlist: [
+                { q: "1. A. level B. average C. condition D. standard", correct: "D" },
+                { q: "2. A. off B. from C. beyond D. outside", correct: "B" },
+                { q: "3. A. proper B. ordinary C. sufficient D. affordable", correct: "D" },
+                { q: "4. A. lively B. light C. fresh D. breathtaking", correct: "C" },
+                { q: "5. A. decorated B. to decorate C. decorating D. to be decorated", correct: "A" }
+            ]},
+            // Urbanisation and Public Health 6-10
+            { section: "Urbanisation and Public Health (6-10)", passage: `Over half the world’s population today live in large urban areas, and this has both positive and negative aspects. On one hand, large cities promote technological and economic (1) ________, but on the other, they can also expose people to issues like poverty unless there is proper urban planning.\nWhen people move to urban areas where they are unable to afford good housing, they can end up living in slums. These areas have poor (2) ________ which leads to health issues. As a result, people can suffer (3) ________ the effects of disease, which severely affects their quality of life. The high cost of living in major urban centres can also push people to eat low-quality diets, while air pollution can have negative effects on entire city populations. All of this harms public health and puts increased pressure on public services.\nTransport can also be a problem in large urban areas. Many cities are not designed to accommodate large amounts of traffic. In addition to the harmful smog this can create, it also leads to congestion, which makes transport systems inefficient and inconvenient to use.\nTo solve the problems of urban life, we need to demand more of our city planning authorities and get them (4) ________ proper urban planning. Immediately, we need to reduce unplanned urbanisation, improve food security, increase job opportunities, encourage community participation, (5) ________ environmental issues and promote sustainable means of transport. They also need to introduce health programmes and offer affordable healthcare to everyone.`,
+              qlist: [
+                { q: "6. A. growth B. rise C. increase D. extension", correct: "A" },
+                { q: "7. A. health B. wellness C. healthcare D. sanitation", correct: "D" },
+                { q: "8. A. with B. of C. about D. from", correct: "D" },
+                { q: "9. A. put B. putting C. to put D. to be put", correct: "C" },
+                { q: "10. A. prevent B. address C. improve D. implement", correct: "B" }
+            ]},
+            // MULTIPLE CHOICE - The Challenges of Migration 11-15
+            { section: "The Challenges of Migration (11-15)", passage: `In recent years, millions of migrants worldwide have moved across international borders. There are all kinds of reasons for this, whether it’s to find better job opportunities, to study, or reunite with family members. Throughout history, such movements have occurred, but numbers have increased significantly lately. For example, 2.7 million migrants came to the EU in 2021, but the next year, 5.1 million came.\nWhen migrants arrive in a new country, it’s not always easy to become a part of society there. It can take a lot of time and effort to obtain all the documents which enable people to live and work in a country, as well as to get an address, which they need to open bank accounts and gain access to local welfare services.\nLife in a new environment for those moving abroad, especially to a big city, with little savings may end up living in buildings in industrial areas that lack basic amenities. What’s more, we shouldn’t forget how someone may feel in a new environment, as feelings like homesickness are quite common. Many people overcome them, however, and feel that this change helps them grow and become more independent. They also see it as a way to experience new cultures and broaden their horizons.\nFortunately, there are non-governmental organisations (NGOs) that offer free support to migrants to help them settle in a new country. This can involve assisting with finding accommodation, offering drop-in medical services, providing free language lessons or giving advice on education, employment or legal issues. Altogether, this can help migrants feel that they truly belong in their new country.`,
+              qlist: [
+                { q: "11. What is the main idea of the first paragraph? A. The rate of global migration has slowly increased to its current level. B. There are a variety of factors that push people to migrate. C. There are more migrant workers in Europe than anywhere else. D. There has been a rise in modern migration.", correct: "D" },
+                { q: "12. When migrants first reach a new country, they ________. A. must get certain documents in order to stay. B. are usually able to start working immediately. C. receive help from local welfare services. D. must have a bank account before getting an address.", correct: "A" },
+                { q: "13. Which of the following is NOT true according to the passage? A. A lot of migrants feel less homesick and lonely over time. B. The challenges migrants face often lead to self-development. C. NGOs provide advice and support free of charge. D. The majority of migrants in urban areas are provided with everything they need.", correct: "D" },
+                { q: "14. Which of the following can be inferred from the passage? A. More and more people will have to leave their home countries in the future. B. Moving to a new country always involves financial difficulties. C. It’s necessary to find a second home when settling in a new country. D. People can ask for guidance from an organisation when settling in a new country.", correct: "C" },
+                { q: "15. The phrase “put down roots” in paragraph 3 is closest in meaning to ________. A. get permanent accommodation C. gain access to public facilities B. become part of a society D. become familiar with the lifestyle", correct: "B" }
+            ]},
+            // The Shining Light of Solar Power 16-20 (lưu ý 2 câu 19)
+            { section: "The Shining Light of Solar Power (16-20)", passage: `Solar power harnesses the power of the Sun to create electricity. From large solar farms covering entire fields, to panels on our roofs, and even solar-powered backpacks which charge electronic devices, solar technologies are fast becoming a major part of everyday life.\nSolar power isn't all about modern technology, though. In fact, human beings have been harnessing the Sun's energy for centuries. In ancient times, people built south-facing homes with thick walls to absorb the Sun's rays and stay as warm as possible during colder months. They also used heat from the Sun to extract salt from sea water, and to dry out food items like meat to preserve them for cooking weeks or months later. It was only in recent history that we finally learned to use the Sun's energy to power machines. In 1954, a company called Bell Laboratories invented the first solar cell. This development meant that people could use the power of the Sun to generate electricity. Though there had been experiments during its development, the first true test of this technology wasn't actually on this planet. NASA first used solar panels on their Vanguard I satellite in 1958. By the time NASA eventually lost communications with the satellite in 1964, it had completed its mission, proving just how reliable solar power could be.\nSince then, solar panels have become even more efficient. In fact, the solar panels you see every day are already twice as efficient as the ones NASA used in the 50s. For solar power, the future is very bright indeed.`,
+              qlist: [
+                { q: "16. What is the main idea of the first paragraph? A. There are different ways of harnessing solar power. B. Solar power can be highly efficient. C. We can use solar panels to generate power. D. Solar panels have limited applications in our everyday lives.", correct: "A" },
+                { q: "17. According to the passage, people in ancient times used the power of the Sun A. to insulate homes B. to produce salt C. to cook various food items D. to provide devices with energy", correct: "B" },
+                { q: "18. Which of the following is NOT true according to the passage? A. The first serious test of solar technology was on Vanguard I. B. NASA developed the first solar panels in 1958. C. Solar cells were already in use before the 1950s. D. The Vanguard I satellite disappeared six years after its launch.", correct: "C" },
+                { q: "19. Which of the following can be inferred from the passage? A. The solar technologies developed in the 50s were wasteful. B. People were slow to accept the possibilities of solar technologies. C. The best use of solar power might not be energy production. D. Solar power technologies are advancing at a rapid rate.", correct: "D" },
+                { q: "20. The word 'bright' in paragraph 3 is closest in meaning to A. advancing B. encouraging C. functional D. impactful", correct: "B" }
+            ]},
+            // USE OF ENGLISH 21-30
+            { section: "III. USE OF ENGLISH (21-30)", qlist: [
+                { q: "21. The city council will rely ______ the planning department. A. to B. in C. on D. at", correct: "C" },
+                { q: "22. If it ______ tomorrow, we will finish putting the solar panels. A. didn’t rain B. won’t rain C. doesn’t rain D. wouldn’t rain", correct: "C" },
+                { q: "23. I ______ using biomass fuel much sooner if I had known. A. had started B. will start C. would start D. would have started", correct: "D" },
+                { q: "24. The energy ______ will get worse until we move away from finite sources. A. crisis B. waste C. lack D. pollution", correct: "A" },
+                { q: "25. The cheapest housing is usually found in ______ areas near factories. A. rural B. urban C. industrial D. economic", correct: "C" },
+                { q: "26. Jack is coping ______ missing his family. A. with B. for C. from D. about", correct: "A" },
+                { q: "27. Mr Brown ______ his garden fence ______ by insurance. A. is having … to replace B. is having … replaced C. is getting … replace D. is getting … to replace", correct: "B" },
+                { q: "28. Sarah ______ the plumber ______ the water pipes tomorrow. A. will have … fix B. will have … to fix C. will get … fix D. will get … fixed", correct: "A" },
+                { q: "29. I ______ extra bins for recycling if I were you. A. buy B. bought C. will buy D. would buy", correct: "D" },
+                { q: "30. The city built a power station to produce ______ energy. A. tidal B. wind C. hydroelectric D. geothermal", correct: "C" }
+            ]},
+            // CLOSEST 31-35
+            { section: "CLOSEST in meaning (31-35)", qlist: [
+                { q: "31. Did you move by choice? A. lead B. attract C. drive D. motivate", correct: "B" },
+                { q: "32. reduce your carbon footprint. A. cut down B. drop out C. give up D. turn off", correct: "A" },
+                { q: "33. Urban migration and population growth. A. recreation B. relocation C. urbanisation D. transportation", correct: "B" },
+                { q: "34. sustainable building materials. A. reduced B. renewable C. reusable D. recyclable", correct: "B" },
+                { q: "35. emits fewer harmful gases. A. releases B. generates C. installs D. converts", correct: "A" }
+            ]},
+            // OPPOSITE 36-40
+            { section: "OPPOSITE in meaning (36-40)", qlist: [
+                { q: "36. poor quality of life. A. high B. valuable C. affordable D. improved", correct: "A" },
+                { q: "37. support their families. A. not fight for B. not put up with C. not look after D. not go along with", correct: "C" },
+                { q: "38. infinite energy sources. A. minimal B. reduced C. limited D. disposable", correct: "C" },
+                { q: "39. conserve water. A. reduce B. deplete C. waste D. discourage", correct: "C" },
+                { q: "40. promote green energy. A. reduce B. deplete C. eliminate D. discourage", correct: "D" }
+            ]},
+            // advertisements 1-5 (Save Our Forests + Clean Oceans)
+            { section: "Save Our Forests (advert 1-5)", passage: `Save Our Forests\nLet’s protect nature for future generations\n📌 Facts and figures\nEvery year, the world loses vast areas of forests, with nearly 15 billion trees being (1) ______ annually. Forests, which cover 31% of the Earth's land area, are crucial for maintaining biodiversity and regulating the climate. The deforestation rate in tropical regions, particularly in countries like Brazil and Indonesia, is dangerously high. This rapid forest loss accelerates global warming and the extinction of (2) ______ species.\n📌 What we can do\n• Reducing demand for products linked to deforestation, like palm oil and unsustainable paper, can help. Consumers can choose (3) ______ sustainable products to reduce their ecological footprint.\n• Governments must pass stricter regulations to protect forests, such as enforcing land-use (4) ______ and penalizing illegal logging.\n• Local communities should be given the tools and knowledge to protect their forests. Supporting indigenous groups and forest conservation (5) ______ is essential for long-term sustainability.`,
+              qlist: [
+                { q: "1. A. thrown away B. cut down C. run out D. pulled down", correct: "B" },
+                { q: "2. A. each B. much C. many D. little", correct: "C" },
+                { q: "3. A. certified B. qualified C. identified D. verified", correct: "A" },
+                { q: "4. A. properties B. penalties C. incentives D. policies", correct: "D" },
+                { q: "5. A. initiatives B. intimacies C. imitations D. indications", correct: "A" }
+            ]},
+            { section: "CLEAN OUR OCEANS (advert 6-10)", passage: `CLEAN OUR OCEANS\n“Who will I collaborate (1) ______? Will they be motivated or uninterested?” ... A new initiative called ‘Ocean Clean-Up Crew’ is now available. When you join, you can share your (2) ______ with everyone in the project. You will also see everyone else's profile. Then you can choose who you want to team up with. If you want to discuss environmental policies and (3) ______ influential contacts, look at people's (4) ______ network profiles. And if you prefer (5) ______ fun and chatting about diving and marine conservation, look at their social network profiles!`,
+              qlist: [
+                { q: "1. A. with B. about C. over D. for", correct: "A" },
+                { q: "2. A. media social profile B. profile social media C. social media profile D. profile media social", correct: "C" },
+                { q: "3. A. get B. take C. put D. make", correct: "D" },
+                { q: "4. A. professionally B. professional C. profession D. professionalism", correct: "B" },
+                { q: "5. A. have B. to have C. having D. to having", correct: "C" }
+            ]},
+            // WRITING sequencing 1-5
+            { section: "IV. WRITING – Sequencing (1-5)", qlist: [
+                { q: "1. Laura / Daniel. A. a-c-b B. c-a-b C. b-a-c D. b-c-a", correct: "C" },
+                { q: "2. David / Sarah. A. c–e–d–b–a B. c–b–a–e–d C. a–e–c–b–d D. a–b–d–e–c", correct: "B" },
+                { q: "3. Going green. A. d-e-a-c-b B. a-b-c-d-e C. c-a-b-e-d D. d-e-a-b-c", correct: "A" },
+                { q: "4. Emma / David. A. b-a-d-c-e B. b-a-e-c-d C. d-a-b-c-e D. d-c-e-a-b", correct: "C" },
+                { q: "5. Kevin / Brian. A. c-b-e-b-a B. c-d-a-b-e C. e-d-a-b-c D. e-b-c-d-a", correct: "D" }
+            ]},
+            // WRITING sentence combination 41-45
+            { section: "Sentence combination (41-45)", qlist: [
+                { q: "41. The government asked the city council to build... A. The city council got... B. The city council had... C. The government got... D. The city council had...", correct: "C" },
+                { q: "42. Daniel drives to work... A. If Daniel took... B. I’d Daniel take the underground... C. If Daniel drove... D. I'd advise...", correct: "B" },
+                { q: "43. Their energy costs were so low... A. Their energy costs would be... B. If they had installed... C. If they didn't install... D. Their energy costs wouldn't have been so low if they hadn't installed...", correct: "D" },
+                { q: "44. A gardener mows Diane's lawn... A. The gardener gets... B. Diane has her garden mown... C. Every month... D. A gardener has Diane...", correct: "B" },
+                { q: "45. The turbines break without regular maintenance. A. The turbines will break if you don't maintain them. B. If you didn't maintain... C. If you had maintained... D. You wouldn't have broken...", correct: "A" }
+            ]}
+        ];
+
+        let userAnswers = {}; 
+        let submitted = false;
+
+        function renderQuestions() {
+            const area = document.getElementById('questionsArea');
+            let html = '';
+            questions.forEach(group => {
+                html += `<div class="section-title">${group.section}</div>`;
+                if (group.passage) {
+                    html += `<div class="passage-box">${group.passage.replace(/\n/g, '<br>')}</div>`;
+                }
+                group.qlist.forEach((item, idx) => {
+                    const qId = `${group.section}-${idx}`; 
+                    let qText = item.q;
+                    const options = extractOptionsFromText(qText);
+                    html += `<div class="question-item" data-qid="${qId}" data-correct="${item.correct}">`;
+                    html += `<div class="question-text"><span class="q-num">?</span> ${options.qText}</div>`;
+                    html += `<div class="options" id="opts-${qId}">`;
+                    options.optList.forEach(opt => {
+                        const letter = opt.letter;
+                        const fullText = opt.full;
+                        const checkedAttr = (userAnswers[qId] && userAnswers[qId] === letter) ? 'checked' : '';
+                        html += `<label class="option"><input type="checkbox" name="${qId}" value="${letter}" ${checkedAttr} data-letter="${letter}"> <span class="option-text">${fullText}</span></label>`;
+                    });
+                    html += `</div></div>`;
+                });
+            });
+            area.innerHTML = html;
+            attachCheckboxListeners();
+        }
+
+        function extractOptionsFromText(text) {
+            let qText = text;
+            const optMatch = text.match(/([A-D]\.\s.*?)(?=[A-D]\.|$)/gs);
+            if (optMatch) {
+                const firstOptIndex = text.indexOf('A.');
+                qText = text.substring(0, firstOptIndex).trim();
+            }
+            const letters = ['A','B','C','D'];
+            const opts = [];
+            letters.forEach(l => {
+                const regex = new RegExp(`${l}\\.\\s*([^A-D]+?)(?=\\s*[A-D]\\.|$)`);
+                const match = text.match(regex);
+                if (match) {
+                    opts.push({ letter: l, full: match[0].trim() });
+                } else {
+                    opts.push({ letter: l, full: `${l}. (không rõ)` });
+                }
+            });
+            return { qText, optList: opts };
+        }
+
+        function attachCheckboxListeners() {
+            document.querySelectorAll('.option input[type=checkbox]').forEach(cb => {
+                cb.addEventListener('change', function(e) {
+                    if (submitted) return; 
+                    const qid = this.name;
+                    const letter = this.dataset.letter;
+                    document.querySelectorAll(`input[name="${qid}"]`).forEach(c => {
+                        if (c !== this) c.checked = false;
+                    });
+                    if (this.checked) {
+                        userAnswers[qid] = letter;
+                    } else {
+                        delete userAnswers[qid];
+                    }
+                });
+            });
+        }
+
+        function calculateScore() {
+            let correctCount = 0;
+            let total = 0;
+            const review = [];
+            document.querySelectorAll('.question-item').forEach(item => {
+                const qid = item.dataset.qid;
+                const correct = item.dataset.correct;
+                const selected = userAnswers[qid] || null;
+                total++;
+                const isCorrect = (selected === correct);
+                if (isCorrect) correctCount++;
+                const qText = item.querySelector('.question-text')?.innerText.replace(/<[^>]*>/g,'') || '';
+                review.push({ qid, correct, selected, isCorrect, qText: qText.substring(0,60)+'…' });
+            });
+            return { correctCount, total, review };
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            submitted = true;
+            const { correctCount, total, review } = calculateScore();
+            document.getElementById('scoreDisplay').innerText = `${correctCount} / ${total} đúng`;
+            let reviewHtml = '<h4>🔍 Chi tiết đáp án (theo đáp án đúng từ đề)</h4><ul style="list-style:none; padding-left:0;">';
+            review.forEach(r => {
+                const mark = r.isCorrect ? '✅' : '❌';
+                reviewHtml += `<li style="margin-bottom:8px;">${mark} <strong>${r.qid}</strong> – Chọn: ${r.selected || '(bỏ)'} | Đáp án đúng: ${r.correct} </li>`;
+            });
+            reviewHtml += '</ul>';
+            document.getElementById('answersReview').innerHTML = reviewHtml;
+            document.getElementById('resultContainer').style.display = 'block';
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            userAnswers = {};
+            submitted = false;
+            document.getElementById('resultContainer').style.display = 'none';
+            renderQuestions();
+        });
+
+        renderQuestions();
+        document.getElementById('resultContainer').style.display = 'none';
+    })();
+</script>
+</body>
+</html>
