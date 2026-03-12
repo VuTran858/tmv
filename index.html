@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài Kiểm Tra Kỹ Thuật Điện Tử</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 80px;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,212,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(124,58,237,0.06) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0d1b2e 0%, #111827 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent, transparent 60px,
+      rgba(0,212,255,0.025) 60px, rgba(0,212,255,0.025) 61px
+    );
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+  .header p {
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    max-width: 800px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .progress-count { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 600; }
+  .progress-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 10px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* QUIZ CONTAINER */
+  .quiz-container {
+    max-width: 800px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    animation: fadeUp 0.5s ease both;
+  }
+  .question-card:hover { border-color: rgba(0,212,255,0.2); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-card:nth-child(1)  { animation-delay: .03s }
+  .question-card:nth-child(2)  { animation-delay: .06s }
+  .question-card:nth-child(3)  { animation-delay: .09s }
+  .question-card:nth-child(4)  { animation-delay: .12s }
+  .question-card:nth-child(5)  { animation-delay: .15s }
+  .question-card:nth-child(6)  { animation-delay: .18s }
+  .question-card:nth-child(7)  { animation-delay: .21s }
+  .question-card:nth-child(8)  { animation-delay: .24s }
+  .question-card:nth-child(9)  { animation-delay: .27s }
+  .question-card:nth-child(10) { animation-delay: .30s }
+  .question-card:nth-child(11) { animation-delay: .33s }
+  .question-card:nth-child(12) { animation-delay: .36s }
+  .question-card:nth-child(13) { animation-delay: .39s }
+  .question-card:nth-child(14) { animation-delay: .42s }
+  .question-card:nth-child(15) { animation-delay: .45s }
+  .question-card:nth-child(16) { animation-delay: .48s }
+  .question-card:nth-child(17) { animation-delay: .51s }
+  .question-card:nth-child(18) { animation-delay: .54s }
+  .question-card:nth-child(19) { animation-delay: .57s }
+  .question-card:nth-child(20) { animation-delay: .60s }
+
+  .question-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .question-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 1px;
+  }
+  .question-text {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text);
+    flex: 1;
+  }
+  .answered-dot {
+    flex-shrink: 0;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    margin-top: 8px;
+    transition: background 0.3s;
+  }
+  .question-card.answered .answered-dot { background: var(--accent); box-shadow: 0 0 8px rgba(0,212,255,0.5); }
+
+  /* OPTIONS */
+  .options-list {
+    padding: 14px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-label::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0,212,255,0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .option-label:hover:not(.disabled) { border-color: rgba(0,212,255,0.35); }
+  .option-label:hover:not(.disabled)::before { opacity: 1; }
+
+  .option-radio {
+    display: none;
+  }
+  .option-circle {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .option-circle::after {
+    content: '';
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform 0.2s cubic-bezier(.4,0,.2,1);
+  }
+  .option-radio:checked + .option-circle {
+    border-color: var(--accent);
+  }
+  .option-radio:checked + .option-circle::after { transform: scale(1); }
+
+  .option-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-dim);
+    transition: color 0.2s;
+    flex: 1;
+  }
+  .option-radio:checked ~ .option-text { color: var(--text); }
+  .option-label:has(.option-radio:checked) { border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.05); }
+
+  /* RESULT STATES */
+  .option-label.correct {
+    border-color: var(--green) !important;
+    background: rgba(16,185,129,0.08) !important;
+  }
+  .option-label.correct .option-circle {
+    border-color: var(--green) !important;
+    background: rgba(16,185,129,0.15);
+  }
+  .option-label.correct .option-circle::after { background: var(--green); transform: scale(1); }
+  .option-label.correct .option-text { color: #34d399 !important; }
+
+  .option-label.wrong {
+    border-color: var(--red) !important;
+    background: rgba(239,68,68,0.07) !important;
+  }
+  .option-label.wrong .option-circle { border-color: var(--red) !important; }
+  .option-label.wrong .option-circle::after { background: var(--red); transform: scale(1); }
+  .option-label.wrong .option-text { color: #f87171 !important; }
+
+  .option-label.disabled { cursor: default; pointer-events: none; }
+
+  .result-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 2px;
+    display: none;
+  }
+  .option-label.correct .result-icon,
+  .option-label.wrong .result-icon { display: block; }
+
+  /* CARD STATUS */
+  .question-card.result-correct { border-color: rgba(16,185,129,0.3); }
+  .question-card.result-correct .question-num { background: linear-gradient(135deg, #059669, #10b981); }
+  .question-card.result-wrong { border-color: rgba(239,68,68,0.3); }
+  .question-card.result-wrong .question-num { background: linear-gradient(135deg, #b91c1c, #ef4444); }
+
+  /* SUBMIT BUTTON */
+  .submit-wrap {
+    max-width: 800px;
+    margin: 8px auto 0;
+    padding: 0 24px;
+  }
+  .btn-submit {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-submit::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .btn-submit:hover::before { transform: translateX(0); }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,255,0.3); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* RESULT PANEL */
+  .result-panel {
+    display: none;
+    max-width: 800px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+  .result-panel.show { display: block; }
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .score-circle {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) var(--pct), var(--border) 0);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .score-circle::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: var(--surface);
+  }
+  .score-number {
+    position: relative;
+    z-index: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .result-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .result-sub { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px;
+  }
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .stat-val.green { color: var(--green); }
+  .stat-val.red   { color: var(--red); }
+  .stat-val.yellow{ color: var(--yellow); }
+  .stat-lbl { font-size: 12px; color: var(--text-muted); }
+
+  .btn-retry {
+    padding: 13px 32px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    color: var(--accent);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-retry:hover { background: rgba(0,212,255,0.1); transform: translateY(-1px); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface);
+    border: 1px solid var(--red);
+    color: #fca5a5;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(.4,0,.2,1);
+    z-index: 100;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 540px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .stat-box:last-child { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">KỸ THUẬT ĐIỆN TỬ</div>
+  <h1>Bài Kiểm Tra Trắc Nghiệm</h1>
+  <p>20 câu hỏi &nbsp;·&nbsp; Chọn đáp án cho tất cả câu rồi nộp bài</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-info">
+    <span>Tiến độ</span>
+    <span class="progress-count"><span id="answered-count">0</span>/20 câu đã chọn</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+</div>
+
+<div class="quiz-container" id="quiz"></div>
+
+<div class="submit-wrap">
+  <button class="btn-submit" id="btn-submit" onclick="submitQuiz()">
+    ✦ Nộp Bài &amp; Xem Kết Quả
+  </button>
+</div>
+
+<div class="result-panel" id="result-panel">
+  <div class="result-card">
+    <div class="score-circle" id="score-circle" style="--pct:0deg">
+      <span class="score-number" id="score-num">0/20</span>
+    </div>
+    <div class="result-title" id="result-title">Kết quả bài kiểm tra</div>
+    <div class="result-sub" id="result-sub"></div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-val green" id="stat-correct">0</div>
+        <div class="stat-lbl">✓ Câu đúng</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val red" id="stat-wrong">0</div>
+        <div class="stat-lbl">✗ Câu sai</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val yellow" id="stat-pct">0%</div>
+        <div class="stat-lbl">Tỉ lệ đúng</div>
+      </div>
+    </div>
+    <button class="btn-retry" onclick="retryQuiz()">↺ Làm lại bài</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const questions = [
+  {
+    num: 1,
+    text: "Trong một số dịch vụ phổ biến có ứng dụng kĩ thuật điện tử, dịch vụ được thực hiện thông qua các thiết bị điện tử có kết nối internet như máy tính, rút tiền tự động (ATM), smartbanking là dịch vụ nào sau đây?",
+    options: [
+      { label: "A", text: "Dịch vụ viễn thông.", correct: false },
+      { label: "B", text: "Dịch vụ trong đào tạo.", correct: false },
+      { label: "C", text: "Dịch vụ tài chính.", correct: true },
+      { label: "D", text: "Dịch vụ trong giao thông.", correct: false }
+    ]
+  },
+  {
+    num: 2,
+    text: "Khi đặt một điện áp xoay chiều có f = 50 Hz vào hai đầu tụ điện có C = 100 μF thì dung kháng của tụ điện có giá trị là bao nhiêu?",
+    options: [
+      { label: "A", text: "0,318 Ω", correct: false },
+      { label: "B", text: "3,18 Ω", correct: false },
+      { label: "C", text: "31,8 Ω", correct: true },
+      { label: "D", text: "318 Ω", correct: false }
+    ]
+  },
+  {
+    num: 3,
+    text: "IC tuyến tính và IC cao tần thuộc nhóm IC nào dưới đây?",
+    options: [
+      { label: "A", text: "IC tương tự.", correct: true },
+      { label: "B", text: "IC số.", correct: false },
+      { label: "C", text: "IC kết hợp tương tự và số.", correct: false },
+      { label: "D", text: "IC công suất.", correct: false }
+    ]
+  },
+  {
+    num: 4,
+    text: "Một transistor được dùng để khuếch đại tín hiệu trong mạch. Để transistor hoạt động ở chế độ khuếch đại, điện áp tại chân B (base) như thế nào so với chân E (emitter)?",
+    options: [
+      { label: "A", text: "Cao hơn điện áp tại chân E.", correct: true },
+      { label: "B", text: "Bằng điện áp tại chân E.", correct: false },
+      { label: "C", text: "Thấp hơn điện áp tại chân E.", correct: false },
+      { label: "D", text: "Không ảnh hưởng đến hoạt động của transistor.", correct: false }
+    ]
+  },
+  {
+    num: 5,
+    text: "Triển vọng phát triển của kĩ thuật điện tử trong sản xuất và đời sống là ứng dụng",
+    options: [
+      { label: "A", text: "công nghệ điện tử tương tự, robot phục vụ cho sản xuất và trong đời sống.", correct: false },
+      { label: "B", text: "công nghệ số, robot và máy thông minh phục vụ cho sản xuất và trong đời sống.", correct: true },
+      { label: "C", text: "công nghệ điện tử tương tự, robot phục vụ cho sản xuất và trong đời sống.", correct: false },
+      { label: "D", text: "công nghệ số, robot và máy thông minh hạn chế ô nhiễm môi trường trong đời sống.", correct: false }
+    ]
+  },
+  {
+    num: 6,
+    text: "Mạch tích hợp (IC) thường được sử dụng để thực hiện chức năng nào trong các thiết bị điện tử?",
+    options: [
+      { label: "A", text: "Khuếch đại tín hiệu, tạo dao động, bộ nhớ máy tính, vi xử lý...", correct: true },
+      { label: "B", text: "Chuyển đổi năng lượng giữa các dạng khác nhau.", correct: false },
+      { label: "C", text: "Cung cấp nguồn điện trực tiếp cho thiết bị.", correct: false },
+      { label: "D", text: "Điều khiển dòng điện trong cuộn cảm.", correct: false }
+    ]
+  },
+  {
+    num: 7,
+    text: "Khi nghiên cứu linh kiện điện tử Diode, nhận định nào đúng?",
+    options: [
+      { label: "A", text: "Diode là linh kiện điện tử chỉ cho phép dòng điện chạy qua theo một chiều và chặn dòng điện chạy theo chiều ngược lại.", correct: true },
+      { label: "B", text: "Diode chỉ cho phép dòng điện chạy theo chiều từ K đến A.", correct: false },
+      { label: "C", text: "Diode có thể cho phép dòng điện chạy theo cả hai chiều.", correct: false },
+      { label: "D", text: "Diode chỉ hoạt động khi có điện áp phân cực ngược lớn.", correct: false }
+    ]
+  },
+  {
+    num: 8,
+    text: "Một điện trở có ghi số 220 Ω, ±5%. Ý nghĩa của con số ±5% là gì?",
+    options: [
+      { label: "A", text: "Điện trở này sẽ giảm giá trị sau 5%.", correct: false },
+      { label: "B", text: "Điện trở chỉ dùng được khi dòng điện nhỏ hơn 5% giá trị định mức.", correct: false },
+      { label: "C", text: "Điện trở này có thể hoạt động trong thời gian 5%.", correct: false },
+      { label: "D", text: "Sai số của giá trị điện trở trong khoảng 5% so với 220 Ω.", correct: true }
+    ]
+  },
+  {
+    num: 9,
+    text: "Kĩ thuật điện tử là một trong các ngành kĩ thuật",
+    options: [
+      { label: "A", text: "tạo ra điện năng an toàn.", correct: false },
+      { label: "B", text: "gia công cơ khí hiện đại.", correct: false },
+      { label: "C", text: "mũi nhọn và hiện đại.", correct: true },
+      { label: "D", text: "nghiên cứu hiện đại.", correct: false }
+    ]
+  },
+  {
+    num: 10,
+    text: "Mạch phát hiện dòng điện xoay chiều hoạt động dựa trên nguyên lý nào?",
+    options: [
+      { label: "A", text: "Sự thay đổi nhiệt độ khi dòng điện qua dây dẫn.", correct: false },
+      { label: "B", text: "Cảm ứng từ trường.", correct: true },
+      { label: "C", text: "Dòng điện chỉ có thể thay đổi khi có thay đổi điện áp.", correct: false },
+      { label: "D", text: "Sự thay đổi điện áp trên điện trở.", correct: false }
+    ]
+  },
+  {
+    num: 11,
+    text: "Tranzito (loại NPN) chỉ làm việc khi",
+    options: [
+      { label: "A", text: "các cực bazơ (B), emitơ (E) được phân cực thuận và điện áp UCE > 0.", correct: true },
+      { label: "B", text: "các cực bazơ (B), emitơ (E) được phân cực thuận và điện áp UCE < 0.", correct: false },
+      { label: "C", text: "các cực bazơ (B), emitơ (E) được phân cực ngược và điện áp UCE > 0.", correct: false },
+      { label: "D", text: "các cực bazơ (B), emitơ (E) được phân cực ngược và điện áp UCE < 0.", correct: false }
+    ]
+  },
+  {
+    num: 12,
+    text: "Phát triển của kĩ thuật điện tử trong sản xuất nhằm:",
+    options: [
+      { label: "A", text: "bảo vệ con người trong các hoạt động sản xuất và tối ưu hóa toàn bộ quy trình sản xuất.", correct: true },
+      { label: "B", text: "tối ưu việc sử dụng các thiết bị điện tử, phát triển các hệ thống cung ứng sản phẩm.", correct: false },
+      { label: "C", text: "gia tăng sự tiện lợi, gây ảnh hưởng môi trường trong sản xuất.", correct: false },
+      { label: "D", text: "tạo các thiết bị điện tử có hiệu suất cao, tiết kiệm năng lượng.", correct: false }
+    ]
+  },
+  {
+    num: 13,
+    text: "Khi điện trở trong mạch tăng lên, dòng điện trong mạch sẽ thay đổi như thế nào?",
+    options: [
+      { label: "A", text: "Dòng điện tăng tỉ lệ thuận với điện trở.", correct: false },
+      { label: "B", text: "Dòng điện giảm tỉ lệ thuận với điện trở.", correct: false },
+      { label: "C", text: "Dòng điện không thay đổi vì điện trở không ảnh hưởng đến dòng điện.", correct: false },
+      { label: "D", text: "Dòng điện giảm tỉ lệ nghịch với điện trở.", correct: true }
+    ]
+  },
+  {
+    num: 14,
+    text: "Một mạch điện sử dụng diode để chỉnh lưu. Diode có điện áp ngưỡng là 0,7 V. Nếu điện áp đầu vào của mạch là 5 V, điều gì sẽ xảy ra?",
+    options: [
+      { label: "A", text: "Diode sẽ không cho dòng điện chạy qua mạch.", correct: false },
+      { label: "B", text: "Diode sẽ cho dòng điện chạy qua mạch, nhưng điện áp đầu ra sẽ là 4,3 V.", correct: true },
+      { label: "C", text: "Diode sẽ gây ra sự thay đổi dòng điện không ổn định.", correct: false },
+      { label: "D", text: "Diode sẽ cho dòng điện chạy qua mạch với điện áp đầu ra bằng 5 V.", correct: false }
+    ]
+  },
+  {
+    num: 15,
+    text: "Trên một tụ điện có ghi 160 V – 100 μF. Các thông số này cho ta biết điều gì?",
+    options: [
+      { label: "A", text: "Điện áp định mức và dung kháng của tụ điện.", correct: false },
+      { label: "B", text: "Điện áp cực đại và khả năng tích điện tối thiểu của tụ điện.", correct: false },
+      { label: "C", text: "Điện áp định mức và trị số điện dung của tụ điện.", correct: true },
+      { label: "D", text: "Điện áp đánh thủng và dung lượng của tụ điện.", correct: false }
+    ]
+  },
+  {
+    num: 16,
+    text: "Ngành vận hành thiết bị điện tử là ngành thực hiện những công việc gì?",
+    options: [
+      { label: "A", text: "Nghiên cứu, ứng dụng kiến thức về kĩ thuật điện tử để tạo ra bản thiết kế mạch nguyên lí, thử nghiệm hoạt động của mạch nguyên lí, bản thiết kế mạch in và các thành phần cần thiết khác của thiết bị nhằm đáp ứng được yêu cầu đặt ra.", correct: false },
+      { label: "B", text: "Kết nối và kiểm tra hoạt động của thiết bị điện tử riêng lẻ theo tiêu chuẩn kĩ thuật và an toàn.", correct: false },
+      { label: "C", text: "Sử dụng các dây chuyền công nghệ hoặc máy và công cụ hỗ trợ để tạo ra thiết bị điện tử từ vật liệu, linh kiện theo bản thiết kế ban đầu và quy trình kiểm soát chất lượng.", correct: false },
+      { label: "D", text: "Hoạt động nhằm duy trì chế độ làm việc bình thường của thiết bị điện đáp ứng các yêu cầu chất lượng, độ tin cậy và kinh tế.", correct: true }
+    ]
+  },
+  {
+    num: 17,
+    text: "Mạch khuếch đại thuật toán có ưu điểm nổi trội gì so với mạch khuếch đại dùng Tranzitor?",
+    options: [
+      { label: "A", text: "Hệ số khuếch đại lớn.", correct: true },
+      { label: "B", text: "Kích thước nhỏ gọn hơn.", correct: false },
+      { label: "C", text: "Đơn giản, dễ lắp.", correct: false },
+      { label: "D", text: "Giá thành rẻ hơn.", correct: false }
+    ]
+  },
+  {
+    num: 18,
+    text: "Trong ngành kĩ thuật điện tử, công việc lắp đặt thiết bị điện tử cho các nhà máy sản xuất thường được thực hiện bởi",
+    options: [
+      { label: "A", text: "thợ điện tử kết hợp với thợ cơ khí.", correct: false },
+      { label: "B", text: "thợ điện tử và có sự kiểm tra, giám sát của kĩ sư cơ khí.", correct: false },
+      { label: "C", text: "thợ điện tử và có sự kiểm tra, giám sát của kĩ sư điện tử.", correct: true },
+      { label: "D", text: "kĩ sư điện có trình độ chuyên môn cao.", correct: false }
+    ]
+  },
+  {
+    num: 19,
+    text: "Ngành thiết kế thiết bị điện tử là ngành thực hiện những công việc gì?",
+    options: [
+      { label: "A", text: "Hoạt động nhằm duy trì chế độ làm việc bình thường của thiết bị điện đáp ứng các yêu cầu chất lượng, độ tin cậy và kinh tế.", correct: false },
+      { label: "B", text: "Sử dụng các dây chuyền công nghệ hoặc máy và công cụ hỗ trợ để tạo ra thiết bị điện tử từ vật liệu, linh kiện theo bản thiết kế ban đầu và quy trình kiểm soát chất lượng.", correct: false },
+      { label: "C", text: "Nghiên cứu, ứng dụng kiến thức về kĩ thuật điện tử để tạo ra bản thiết kế mạch nguyên lí, thử nghiệm hoạt động của mạch nguyên lí, bản thiết kế mạch in và các thành phần cần thiết khác của thiết bị nhằm đáp ứng được yêu cầu đặt ra.", correct: true },
+      { label: "D", text: "Kết nối và kiểm tra hoạt động của thiết bị điện tử riêng lẻ theo tiêu chuẩn kĩ thuật và an toàn.", correct: false }
+    ]
+  },
+  {
+    num: 20,
+    text: "Trong một số ngành nghề thuộc lĩnh vực kĩ thuật điện tử, công việc kiểm tra, chuẩn đoán trạng thái kĩ thuật, theo dõi thường xuyên, ngăn ngừa sự cố và khắc phục những sai hỏng đảm bảo sự hoạt động ổn định và an toàn của các thiết bị điện tử, thuộc ngành nghề nào sau đây?",
+    options: [
+      { label: "A", text: "Sản xuất, chế tạo thiết bị điện tử.", correct: false },
+      { label: "B", text: "Vận hành thiết bị điện tử.", correct: false },
+      { label: "C", text: "Bảo dưỡng và sửa chữa.", correct: true },
+      { label: "D", text: "Lắp đặt thiết bị điện tử.", correct: false }
+    ]
+  }
+];
+
+let submitted = false;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz');
+  container.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `card-${qi}`;
+
+    const optionsHTML = q.options.map((opt, oi) => `
+      <label class="option-label" id="lbl-${qi}-${oi}">
+        <input type="radio" class="option-radio" name="q${qi}" value="${oi}" onchange="onSelect(${qi})">
+        <div class="option-circle"></div>
+        <span class="option-text"><strong>${opt.label}.</strong> ${opt.text}</span>
+        <span class="result-icon" id="icon-${qi}-${oi}"></span>
+      </label>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="question-header">
+        <div class="question-num">${q.num}</div>
+        <div class="question-text">${q.text}</div>
+        <div class="answered-dot" id="dot-${qi}"></div>
+      </div>
+      <div class="options-list">${optionsHTML}</div>
+    `;
+    container.appendChild(card);
+  });
+  updateProgress();
+}
+
+function onSelect(qi) {
+  if (submitted) return;
+  const card = document.getElementById(`card-${qi}`);
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function updateProgress() {
+  let count = 0;
+  questions.forEach((_, qi) => {
+    const sel = document.querySelector(`input[name="q${qi}"]:checked`);
+    if (sel) count++;
+  });
+  document.getElementById('answered-count').textContent = count;
+  const pct = (count / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function submitQuiz() {
+  if (submitted) return;
+
+  // Check all answered
+  let unanswered = [];
+  questions.forEach((_, qi) => {
+    const sel = document.querySelector(`input[name="q${qi}"]:checked`);
+    if (!sel) unanswered.push(qi + 1);
+  });
+
+  if (unanswered.length > 0) {
+    const first = unanswered[0];
+    showToast(`⚠ Bạn chưa trả lời câu ${unanswered.join(', ')}. Hãy chọn đủ tất cả câu!`);
+    const firstCard = document.getElementById(`card-${first - 1}`);
+    firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  submitted = true;
+  let correct = 0;
+
+  questions.forEach((q, qi) => {
+    const sel = document.querySelector(`input[name="q${qi}"]:checked`);
+    const chosenIdx = parseInt(sel.value);
+    const correctIdx = q.options.findIndex(o => o.correct);
+    const card = document.getElementById(`card-${qi}`);
+
+    // Disable all
+    q.options.forEach((_, oi) => {
+      const lbl = document.getElementById(`lbl-${qi}-${oi}`);
+      lbl.classList.add('disabled');
+    });
+
+    // Mark correct answer
+    const correctLbl = document.getElementById(`lbl-${qi}-${correctIdx}`);
+    correctLbl.classList.add('correct');
+    document.getElementById(`icon-${qi}-${correctIdx}`).textContent = '✓';
+
+    if (chosenIdx === correctIdx) {
+      correct++;
+      card.classList.add('result-correct');
+    } else {
+      const wrongLbl = document.getElementById(`lbl-${qi}-${chosenIdx}`);
+      wrongLbl.classList.add('wrong');
+      document.getElementById(`icon-${qi}-${chosenIdx}`).textContent = '✗';
+      card.classList.add('result-wrong');
+    }
+  });
+
+  // Show result
+  const pct = Math.round((correct / questions.length) * 100);
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = questions.length - correct;
+  document.getElementById('stat-pct').textContent = pct + '%';
+  document.getElementById('score-num').textContent = `${correct}/${questions.length}`;
+
+  // Conic gradient
+  const deg = (correct / questions.length) * 360;
+  document.getElementById('score-circle').style.setProperty('--pct', deg + 'deg');
+
+  let title, sub;
+  if (pct === 100) { title = '🏆 Xuất sắc! Tuyệt vời!'; sub = 'Bạn trả lời đúng tất cả các câu hỏi.'; }
+  else if (pct >= 80) { title = '🎉 Kết quả tốt!'; sub = 'Bạn nắm khá vững kiến thức kĩ thuật điện tử.'; }
+  else if (pct >= 60) { title = '📖 Khá tốt'; sub = 'Hãy ôn lại các câu sai để củng cố kiến thức.'; }
+  else if (pct >= 40) { title = '⚡ Cần cố gắng hơn'; sub = 'Bạn cần ôn tập thêm về kĩ thuật điện tử.'; }
+  else { title = '📚 Cần ôn tập nhiều hơn'; sub = 'Hãy xem lại bài học và thử làm lại.'; }
+
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-sub').textContent = sub;
+
+  const panel = document.getElementById('result-panel');
+  panel.classList.add('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  document.getElementById('btn-submit').disabled = true;
+}
+
+function retryQuiz() {
+  submitted = false;
+  document.getElementById('result-panel').classList.remove('show');
+  document.getElementById('btn-submit').disabled = false;
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
